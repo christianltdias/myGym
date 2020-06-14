@@ -1,38 +1,31 @@
-package com.domain;
+package com.exercisetracker.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class User implements Serializable {
+public class User implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-
-    @Column(unique=true)
-    private String email;
-
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    private Date birthday;
-
-    //@OneToMany(mappedBy = "user")
-    //private List<Program> programs = new ArrayList<>();
     
-    // Todo Desenvolvimento
+    private String name;
+    
+	@Column(unique = true)
+    private String email;
+    
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthday;
 
     public User(){
 
@@ -77,14 +70,6 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    // public List<Program> getPrograms() {
-    //     return programs;
-    // }
-
-    // public void setPrograms(List<Program> programs) {
-    //     this.programs = programs;
-    // }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -111,5 +96,4 @@ public class User implements Serializable {
     }
 
     
-
 }

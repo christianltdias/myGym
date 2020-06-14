@@ -1,9 +1,9 @@
-package com.resources;
+package com.exercisetracker.resources;
 
 import java.util.List;
 
-import com.domain.User;
-import com.services.UserService;
+import com.exercisetracker.domain.User;
+import com.exercisetracker.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

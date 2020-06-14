@@ -1,16 +1,16 @@
-package com.services;
+package com.exercisetracker.services;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.domain.User;
-import com.services.exceptions.ObjectNotFoundException;
+import com.exercisetracker.domain.User;
+import com.exercisetracker.repositories.UserRepository;
+import com.exercisetracker.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.UserRepository;
 
 @Service
 public class UserService {

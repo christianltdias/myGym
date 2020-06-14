@@ -1,4 +1,4 @@
-package com.dto;
+package com.exercisetracker.dto;
 
 import java.io.Serializable;
 
