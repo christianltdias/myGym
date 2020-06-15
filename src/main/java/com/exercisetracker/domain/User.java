@@ -1,14 +1,19 @@
 package com.exercisetracker.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import com.exercisetracker.domain.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -23,19 +28,26 @@ public class User implements Serializable{
     
 	@Column(unique = true)
     private String email;
+
+
+    private Integer userType;
     
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
+
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
+    private List<Program> programs = new ArrayList<>();
 
     public User(){
 
     }
 
-    public User(Integer id, String name, String email, Date birthday) {
+    public User(Integer id, String name, String email, Date birthday, UserType userType) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.birthday = birthday;
+        this.userType = (userType == null) ? null : userType.getValue();
     }
 
     public Integer getId() {
@@ -70,6 +82,23 @@ public class User implements Serializable{
         this.birthday = birthday;
     }
 
+    public UserType getTipo() {
+		return UserType.toEnum(this.userType);
+	}
+
+	public void setTipo(UserType userType) {
+		this.userType = userType.getValue();
+	}
+
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
+    }
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -94,6 +123,8 @@ public class User implements Serializable{
             return false;
         return true;
     }
+
+    
 
     
 }
