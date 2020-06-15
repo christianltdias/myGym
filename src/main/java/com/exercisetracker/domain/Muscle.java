@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Muscle implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,11 +24,13 @@ public class Muscle implements Serializable {
 
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "muscles")
     private List<Category> categories = new ArrayList<>();
 
     //@JoinColumn(name = "exercise_id")
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "MUSCLE_EXERCISE",
 		joinColumns = @JoinColumn(name = "muscle_id"),

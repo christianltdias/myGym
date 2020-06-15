@@ -29,7 +29,6 @@ public class User implements Serializable{
 	@Column(unique = true)
     private String email;
 
-
     private Integer userType;
     
     @JsonFormat(pattern = "dd/MM/yyyy")
