@@ -9,34 +9,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Serie implements Serializable {
+public class Muscle implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-	@JoinColumn(name = "program_id")
-    private Program program;
+    private String name;
 
-    private String tag;
+    @ManyToMany(mappedBy = "muscles")
+    private List<Category> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "serie")
-    private List<SerieItem> itens = new ArrayList<>();
+    //@JoinColumn(name = "exercise_id")
 
-    public Serie(){
+    @ManyToMany
+    @JoinTable(name = "MUSCLE_EXERCISE",
+		joinColumns = @JoinColumn(name = "muscle_id"),
+		inverseJoinColumns = @JoinColumn(name = "exercise_id")
+	)
+    private List<Exercise> exercises = new ArrayList<>();
+
+    public Muscle(){
 
     }
 
-    public Serie(Integer id, Program program, String tag) {
+    public Muscle(Integer id, String name) {
         this.id = id;
-        this.program = program;
-        this.tag = tag;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -47,28 +51,28 @@ public class Serie implements Serializable {
         this.id = id;
     }
 
-    public Program getProgram() {
-        return program;
+    public String getName() {
+        return name;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTag() {
-        return tag;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-    
-    public List<SerieItem> getItens() {
-        return itens;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
-    public void setItens(List<SerieItem> itens) {
-        this.itens = itens;
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
     }
 
     @Override
@@ -87,7 +91,7 @@ public class Serie implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Serie other = (Serie) obj;
+        Muscle other = (Muscle) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -95,7 +99,6 @@ public class Serie implements Serializable {
             return false;
         return true;
     }
-
 
     
 }

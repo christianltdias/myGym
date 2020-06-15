@@ -9,34 +9,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Serie implements Serializable {
+public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    private String name;
 
-    @ManyToOne
-	@JoinColumn(name = "program_id")
-    private Program program;
+    
+    @ManyToMany
+    @JoinTable(name = "CATEGORY_MUSCLE",
+    joinColumns = @JoinColumn(name = "category_id"),
+    inverseJoinColumns = @JoinColumn(name = "muscle_id")
+)
+    private List<Muscle> muscles = new ArrayList<>();
 
-    private String tag;
-
-    @OneToMany(mappedBy = "serie")
-    private List<SerieItem> itens = new ArrayList<>();
-
-    public Serie(){
+    public Category(){
 
     }
 
-    public Serie(Integer id, Program program, String tag) {
+    public Category(Integer id, String name) {
         this.id = id;
-        this.program = program;
-        this.tag = tag;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -47,28 +47,20 @@ public class Serie implements Serializable {
         this.id = id;
     }
 
-    public Program getProgram() {
-        return program;
+    public String getName() {
+        return name;
     }
 
-    public void setProgram(Program program) {
-        this.program = program;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTag() {
-        return tag;
+    public List<Muscle> getMuscles() {
+        return muscles;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-    
-    public List<SerieItem> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<SerieItem> itens) {
-        this.itens = itens;
+    public void setMuscles(List<Muscle> muscles) {
+        this.muscles = muscles;
     }
 
     @Override
@@ -87,7 +79,7 @@ public class Serie implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Serie other = (Serie) obj;
+        Category other = (Category) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -95,7 +87,6 @@ public class Serie implements Serializable {
             return false;
         return true;
     }
-
 
     
 }
