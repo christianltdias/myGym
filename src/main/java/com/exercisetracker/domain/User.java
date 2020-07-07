@@ -3,11 +3,17 @@ package com.exercisetracker.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +21,7 @@ import javax.persistence.OneToMany;
 
 import com.exercisetracker.domain.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User implements Serializable{
@@ -29,7 +36,12 @@ public class User implements Serializable{
 	@Column(unique = true)
     private String email;
 
-    private Integer userType;
+    @JsonIgnore
+	private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> profiles = new HashSet<>();
     
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
@@ -41,12 +53,13 @@ public class User implements Serializable{
 
     }
 
-    public User(Integer id, String name, String email, Date birthday, UserType userType) {
+    public User(Integer id, String name, String email, String password, Date birthday) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.birthday = birthday;
-        this.userType = (userType == null) ? null : userType.getValue();
+        this.password = password;
+        addProfile(UserType.USER);
     }
 
     public Integer getId() {
@@ -81,14 +94,15 @@ public class User implements Serializable{
         this.birthday = birthday;
     }
 
-    public UserType getTipo() {
-		return UserType.toEnum(this.userType);
+
+    public Set<UserType> getProfiles(){
+		return profiles.stream().map(x -> UserType.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	public void setTipo(UserType userType) {
-		this.userType = userType.getValue();
-	}
-
+	public void addProfile(UserType profile){
+		profiles.add(profile.getValue());
+    }
+    
     public List<Program> getPrograms() {
         return programs;
     }
@@ -121,6 +135,14 @@ public class User implements Serializable{
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     

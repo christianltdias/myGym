@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            color: #444;
+        }
+        h3 {
+            margin-left: 12px;
+            font-size: 18pt;
+            color: #444;
+        }
+        p{
+            margin-left: 12px;
+            font-size: 14pt;
+        }
+    </style>
+    <title th
+           :remove="all">Program Confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <div>
+        <h1 >
+            Programa número: <span th:text="${program.id}"> </span>
+        </h1>
+        <p>
+            Programa criação: <span th:text="${#dates.format(program.creationDate, 'dd/MM/yyyy hh:mm')}"></span>
+        </p>
+        <p>
+            Programa expiração: <span th:text="${#dates.format(program.expirationDate, 'dd/MM/yyyy hh:mm')}"></span>
+        </p>
+        <p >
+            Usuário: <span th:text="${program.user.name}"></span>
+        </p>
+        <p>
+            Situação do programa: <span th:text="${program.active}"></span>
+        </p>
+    </div>
+</body>
+
+</html>

@@ -2,9 +2,9 @@ package com.exercisetracker.domain.enums;
 
 public enum UserType {
 
-    USER(1, "User"),
-    MODERATOR(2,"Moderator"),
-    ADMINISTRATOR(3,"Administrator");
+    USER(1, "ROLE_USER"),
+    MODERATOR(2,"ROLE_MOD"),
+    ADMINISTRATOR(3,"ROLE_ADMIN");
 
     private int value;
     private String descricao;
