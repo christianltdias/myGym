@@ -4,6 +4,7 @@ import java.util.Random;
 
 import  com.exercisetracker.domain.User;
 import  com.exercisetracker.repositories.UserRepository;
+import com.exercisetracker.services.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,8 +19,8 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder pe;
 
-    // @Autowired
-    // private EmailService emailService;
+    @Autowired
+    private EmailService emailService;
 
     private Random random = new Random();
 
@@ -34,7 +35,7 @@ public class AuthService {
         user.setPassword(pe.encode(newPass));
 
         userRepository.save(user);
-        // emailService.sendNewPasswordEmail(user, newPass);
+        emailService.sendNewPasswordEmail(user, newPass);
     }
 
     private String newPassword(){

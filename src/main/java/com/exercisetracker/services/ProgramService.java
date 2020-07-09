@@ -1,9 +1,11 @@
 package com.exercisetracker.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import com.exercisetracker.domain.Program;
+import com.exercisetracker.domain.Serie;
 import com.exercisetracker.repositories.ProgramRepository;
 import com.exercisetracker.services.exceptions.DataIntegrityException;
 import com.exercisetracker.services.exceptions.ObjectNotFoundException;
@@ -21,7 +23,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProgramService {
     
     @Autowired
-    private ProgramRepository ProgramRepository;
+	private ProgramRepository ProgramRepository;
+	
+	@Autowired
+	private EmailService emailService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private SerieService serieService;
 
     public Program find(Integer id) {
 		Optional<Program> obj = ProgramRepository.findById(id);
@@ -35,8 +46,21 @@ public class ProgramService {
 
     @Transactional
 	public Program insert(Program obj) {
+		System.out.println("Program status");
+		System.out.println(obj);
 		obj.setId(null);
-        obj = ProgramRepository.save(obj);
+		obj.setCreationDate(new Date());
+		obj.setUser(userService.find(obj.getUser().getId()));
+		obj.setActive(true);
+		
+		obj = ProgramRepository.save(obj);
+		
+		for(Serie serie : obj.getSeries()){
+			serie = serieService.find(serie.getId());
+			serie.setProgram(obj);
+		}
+
+		emailService.sendProgramConfirmationHtmlEmail(obj);
         return obj;
 	}
 

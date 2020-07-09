@@ -1,6 +1,7 @@
 package com.exercisetracker.domain;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Program implements Serializable {
@@ -40,7 +40,6 @@ public class Program implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
     private List<Serie> series = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -138,6 +137,30 @@ public class Program implements Serializable {
             return false;
         return true;
     }
+
+    @Override
+	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("Programa: ");
+		builder.append(getName());
+		builder.append(", data de criação: ");
+		builder.append(sdf.format(getCreationDate()));
+		builder.append(", data de expiração: ");
+		builder.append(sdf.format(getExpirationDate()));
+		builder.append(", Usuário: ");
+		builder.append(getUser().getName());
+		builder.append(", Número de séries vinculadas: ");
+		builder.append(getSeries().size());
+		// builder.append("\nDetalhes:\n");
+		// for(ItemPedido ip : getItens()){
+		// 	builder.append(ip.toString());
+		// }
+		// builder.append("Valor total: ");
+		// builder.append(nf.format(getValorTotal()));
+		return builder.toString();
+	}
 
    
 

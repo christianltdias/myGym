@@ -60,7 +60,7 @@ public class DBService {
 		user1.addProfile(UserType.ADMINISTRATOR);
 		
 		Program pro1 = new Program(null, "Main", sdf.parse("05/06/2020"), sdf.parse("05/12/2020"), true, user1);
-		Program pro2 = new Program(null, "Main", sdf.parse("05/06/2019"), sdf.parse("05/12/2019"), false, user1);
+		Program pro2 = new Program(null, "Second", sdf.parse("05/06/2019"), sdf.parse("05/12/2019"), false, user1);
 
 		Serie se1 = new Serie(null, pro1, "A");
 		Serie se2 = new Serie(null, pro1, "B");

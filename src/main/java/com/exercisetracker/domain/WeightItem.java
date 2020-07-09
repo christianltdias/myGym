@@ -28,31 +28,6 @@ public class WeightItem extends SerieItem {
         this.weight = weight;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((weight == null) ? 0 : weight.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        WeightItem other = (WeightItem) obj;
-        if (weight == null) {
-            if (other.weight != null)
-                return false;
-        } else if (!weight.equals(other.weight))
-            return false;
-        return true;
-    }
-
-    
+     
 
 }
